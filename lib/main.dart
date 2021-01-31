@@ -42,7 +42,12 @@ class _GameListPageState extends State<GameListPage> {
 
   void initSocket() {
     try {
-      socket = IO.io('https://namecitygame.herokuapp.com/');
+      socket = IO.io('https://namecitygame.herokuapp.com', <String, dynamic>{
+        'transports': ['websocket'],
+      });
+
+      // IO.io('http://192.168.1.105:5000/');
+      //socket = IO.io('https://namecitygame.herokuapp.com/');
       socket.onConnect((_) {
         print('connect');
       });
@@ -53,6 +58,7 @@ class _GameListPageState extends State<GameListPage> {
           games = list.map((i) => Game.fromJson(i)).toList();
         });
       });
+      socket.connect();
     } catch (e) {
       print(e);
     }
